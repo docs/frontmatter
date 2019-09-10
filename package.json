@@ -1,0 +1,26 @@
+{
+  "name": "@github-docs/frontmatter",
+  "version": "1.0.0",
+  "description": "Parse and validate YAML frontmatter",
+  "repository": "https://github.com/docs/frontmatter",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "lint": "standard --fix",
+    "test": "jest && standard"
+  },
+  "devDependencies": {
+    "jest": "^24.9.0",
+    "standard": "^14.1.0"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.2",
+    "lodash": "^4.17.15",
+    "revalidator": "^0.3.1"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ]
+  }
+}
