@@ -5,8 +5,9 @@ const { difference } = require('lodash')
 module.exports = function frontmatter (markdown, opts = { validateKeyNames: false, validateKeyOrder: false }) {
   const schema = opts.schema || { properties: {} }
   const filepath = opts.filepath || null
-  const allowedKeys = Object.keys(schema.properties)
   const { content, data } = matter(markdown)
+  const allowedKeys = Object.keys(schema.properties)
+  const existingKeys = Object.keys(data)
 
   let { errors } = revalidator.validate(data, schema)
 
@@ -15,9 +16,8 @@ module.exports = function frontmatter (markdown, opts = { validateKeyNames: fals
     errors = errors.map(error => Object.assign(error, { filepath }))
   }
 
-  // check for keys
+  // validate key names
   if (opts.validateKeyNames) {
-    const existingKeys = Object.keys(data)
     const invalidKeys = difference(existingKeys, allowedKeys)
     invalidKeys.forEach(key => {
       const error = {
@@ -27,6 +27,16 @@ module.exports = function frontmatter (markdown, opts = { validateKeyNames: fals
       if (filepath) error.filepath = filepath
       errors.push(error)
     })
+  }
+
+  // validate key order
+  if (opts.validateKeyOrder && allowedKeys.join('') !== existingKeys.join('')) {
+    const error = {
+      property: 'keys',
+      message: `keys must be in order. Current: ${existingKeys.join(',')}; Expected: ${allowedKeys.join(',')}`
+    }
+    if (filepath) error.filepath = filepath
+    errors.push(error)
   }
 
   return { content, data, errors }

@@ -13,6 +13,15 @@ This is a [Node.js](https://nodejs.org/) module available through the
 npm install @github-docs/frontmatter
 ```
 
+## Features
+
+- Make frontmatter entries required or optional
+- Validate value type, length, pattern, etc. See the [revalidator#schema](https://github.com/flatiron/revalidator#schema).
+- Validate urls, emails, IP addresses, dates, times, etc. See [revalidator#format](https://github.com/flatiron/revalidator#format).
+- Set an explicit list of allowable values with [`enum`](https://github.com/flatiron/revalidator#enum).
+- Enforce a specific order of frontmatter values with `validateKeyOrder`
+- Disallow values that are not specified in the schema with `validateKeyNames`
+
 ## Usage
 
 ```js
