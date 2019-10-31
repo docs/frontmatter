@@ -61,6 +61,28 @@ describe('frontmatter', () => {
       }
       expect(errors[0]).toEqual(expectedError)
     })
+
+    it('creates errors if required frontmatter is not present', () => {
+      const schema = {
+        properties: {
+          yet_another_key: {
+            type: 'string',
+            required: true
+          }
+        }
+      }
+
+      const { errors } = parse(fixture1, { schema })
+      expect(errors.length).toBe(1)
+      const expectedError = {
+        attribute: 'required',
+        property: 'yet_another_key',
+        expected: true,
+        actual: undefined,
+        message: 'is required'
+      }
+      expect(errors[0]).toEqual(expectedError)
+    })
   })
 
   describe('validateKeyNames', () => {
@@ -127,6 +149,26 @@ describe('frontmatter', () => {
           },
           meaning_of_life: {
             type: 'number'
+          }
+        }
+      }
+      const { errors } = parse(fixture1, { schema, validateKeyOrder: true })
+      expect(errors.length).toBe(0)
+    })
+
+    it('does not create errors if `validateKeyOrder` is true and expected keys are in order', () => {
+      const schema = {
+        properties: {
+          title: {
+            type: 'string',
+            required: true
+          },
+          yet_another_key: {
+            type: 'string'
+          },
+          meaning_of_life: {
+            type: 'number',
+            required: true
           }
         }
       }
