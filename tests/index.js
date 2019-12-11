@@ -17,6 +17,12 @@ describe('frontmatter', () => {
     expect(errors.length).toBe(0)
   })
 
+  describe('frontmatter.stringify', () => {
+    it('is exported', () => {
+      expect(typeof parse.stringify).toBe('function')
+    })
+  })
+
   describe('schema', () => {
     it('is optional', () => {
       const schema = {
