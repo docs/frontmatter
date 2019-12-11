@@ -2,7 +2,7 @@ const matter = require('gray-matter')
 const revalidator = require('revalidator')
 const { difference, intersection } = require('lodash')
 
-module.exports = function frontmatter (markdown, opts = { validateKeyNames: false, validateKeyOrder: false }) {
+function frontmatter (markdown, opts = { validateKeyNames: false, validateKeyOrder: false }) {
   const schema = opts.schema || { properties: {} }
   const filepath = opts.filepath || null
   const { content, data } = matter(markdown)
@@ -42,3 +42,11 @@ module.exports = function frontmatter (markdown, opts = { validateKeyNames: fals
 
   return { content, data, errors }
 }
+
+// Expose gray-matter's underlying stringify method for joining a parsed
+// frontmatter object and a markdown string back into a unified string
+//
+// stringify('some string', {some: 'frontmatter'})
+frontmatter.stringify = matter.stringify
+
+module.exports = frontmatter

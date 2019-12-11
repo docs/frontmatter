@@ -54,9 +54,9 @@ const { data, content, errors } = frontmatter(markdown)
 
 ## API
 
-This module exports a single function:
-
 ### `frontmatter(markdown, [options])`
+
+Parses a string containing markdown and (optional) frontmatter.
 
 - `markdown` String (required) - the contents of a markdown file that includes YAML frontmatter.
 - `options` Object (optional)
@@ -64,6 +64,11 @@ This module exports a single function:
   - `filepath` String - The name of the file being parsed. Useful for debugging when errors occur.
   - `validateKeyNames` Boolean - If `true`, checks that all keys are specified as schema properties. Defaults to `false`
   - `validateKeyOrder` Boolean - If `true`, checks that all keys are in the same order they appear in the schema. Defaults to `false`
+
+
+### `frontmatter.stringify(markdown, [data])`
+
+This is the same [`stringify`](https://github.com/jonschlinkert/gray-matter#stringify) method exported by the `gray-matter` module, which can be used to join a markdown string and a frontmatter object together as a single string.
 
 ## License
 
