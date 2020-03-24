@@ -66,9 +66,14 @@ Parses a string containing markdown and (optional) frontmatter.
   - `validateKeyOrder` Boolean - If `true`, checks that all keys are in the same order they appear in the schema. Defaults to `false`
 
 
-### `frontmatter.stringify(markdown, [data])`
+### `frontmatter.stringify(markdown, [data], [opts])`
 
 This is the same [`stringify`](https://github.com/jonschlinkert/gray-matter#stringify) method exported by the `gray-matter` module, which can be used to join a markdown string and a frontmatter object together as a single string.
+
+- `file` StringObject - The content string to append to stringified front-matter, or a file object with file.content string.
+- `data` Object - Front matter to stringify.
+- `options` Object - Options to pass to gray-matter and js-yaml.
+- `returns` String - Returns a string created by wrapping stringified yaml with delimiters, and appending that to the given string.
 
 ## License
 
