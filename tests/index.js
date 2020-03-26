@@ -23,6 +23,43 @@ describe('frontmatter', () => {
     })
   })
 
+  describe('YML parsing errors', () => {
+    it('creates errors if YML has an unescaped quote', () => {
+      const fixture = `---
+intro: 'I've got an unescaped quote'
+---
+
+I am content.
+`
+      const { errors } = parse(fixture, { filepath })
+      expect(errors.length).toBe(1)
+      const expectedError = {
+        filepath: 'path/to/file.md',
+        message: 'YML parsing error!',
+        reason: 'invalid frontmatter entry'
+      }
+      expect(errors[0]).toEqual(expectedError)
+    })
+
+    it('creates errors if YML has incorrect indentation', () => {
+      const fixture = `---
+title: Hello, World
+ intro: 'I have a bad leading space'
+---
+
+I am content.
+`
+      const { errors } = parse(fixture, { filepath })
+      expect(errors.length).toBe(1)
+      const expectedError = {
+        filepath: 'path/to/file.md',
+        message: 'YML parsing error!',
+        reason: 'bad indentation of a mapping entry'
+      }
+      expect(errors[0]).toEqual(expectedError)
+    })
+  })
+
   describe('schema', () => {
     it('is optional', () => {
       const schema = {
