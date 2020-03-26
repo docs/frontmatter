@@ -5,12 +5,33 @@ const { difference, intersection } = require('lodash')
 function frontmatter (markdown, opts = { validateKeyNames: false, validateKeyOrder: false }) {
   const schema = opts.schema || { properties: {} }
   const filepath = opts.filepath || null
-  const { content, data } = matter(markdown)
+
+  let content, data
+  let errors = []
+
+  try {
+    ({ content, data } = matter(markdown))
+  } catch (e) {
+    // make this common error message a little easier to understand
+    const reason = e.reason.startsWith('can not read a block mapping entry;')
+      ? 'invalid frontmatter entry'
+      : e.reason
+
+    const error = {
+      reason,
+      message: 'YML parsing error!'
+    }
+
+    if (filepath) error.filepath = filepath
+    errors.push(error)
+    return { errors }
+  }
+
   const allowedKeys = Object.keys(schema.properties)
   const existingKeys = Object.keys(data)
   const expectedKeys = intersection(allowedKeys, existingKeys)
 
-  let { errors } = revalidator.validate(data, schema)
+  ;({ errors } = revalidator.validate(data, schema))
 
   // add filepath property to each error object
   if (errors.length && filepath) {
