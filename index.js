@@ -12,10 +12,12 @@ function frontmatter (markdown, opts = { validateKeyNames: false, validateKeyOrd
   try {
     ({ content, data } = matter(markdown))
   } catch (e) {
-    // make this common error message a little easier to understand
-    const reason = e.reason.startsWith('can not read a block mapping entry;')
-      ? 'invalid frontmatter entry'
-      : e.reason
+    const defaultReason = 'invalid frontmatter entry'
+
+    const reason = e.reason
+      // make this common error message a little easier to understand
+      ? e.reason.startsWith('can not read a block mapping entry;') ? defaultReason : e.reason
+      : defaultReason
 
     const error = {
       reason,
