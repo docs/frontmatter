@@ -13,7 +13,7 @@
   "devDependencies": {
     "jest": "^24.9.0",
     "standard": "^14.1.0",
-    "semantic-release": "^15.13.24"
+    "semantic-release": "^17.2.3"
   },
   "dependencies": {
     "gray-matter": "^4.0.2",
